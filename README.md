@@ -2,6 +2,6 @@
 
 ## TODO
 
-- [] API Planning
-- [] Basic backend
-- [] Basic Frontend
+- [ ] API Planning
+- [ ] Basic backend
+- [ ] Basic Frontend

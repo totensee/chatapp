@@ -1,0 +1,91 @@
+:root {
+    --font-color: #04AA6D;
+    --background-color: #333;
+    --accent-color: #04AA6D;
+    --form-color: #d1d1d1;
+    --button-color: #acacac;
+}
+
+*, *::after, *::before {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: var(--background-color);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* 
+=============
+Login Page
+=============
+*/
+
+.title, .login-title {
+    text-align: center;
+    color: var(--font-color);
+    font-size: 4vh;
+    margin: 0;
+}
+
+.title { margin-top: 20px; }
+
+.login-title {
+    margin-bottom: 30px;
+    margin-top: 10px;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-form-container {
+    width: 80%;
+    max-width: 1000px;
+    border: 2px solid var(--accent-color);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.login-form {
+    margin: 10px;
+}
+
+.login-form > * {
+    width: 97%;
+    margin: 10px 0;
+    border: none;
+}
+
+.login-form > label {
+    color: var(--font-color);
+    font-size: 20px;
+}
+
+.login-form > input { 
+    background-color: var(--form-color);
+    border-radius: 5px;
+}
+
+.login-form > input[type=text] {
+    font-size: 15px;
+    padding: 5px;
+    outline: none;
+}
+
+.login-form > input[type=text]:focus {
+    outline: 3px solid black;
+}
+
+.login-form > input[type=submit] {
+    font-size: 20px;
+    transition: background-color 0.5s ease;
+}
+
+.login-form > input[type=submit]:hover {
+    background-color: var(--button-color);
+    cursor: pointer;
+}
