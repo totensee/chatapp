@@ -2,6 +2,9 @@
 
 ## TODO
 
-- [ ] API Planning
-- [ ] Basic backend
-- [ ] Basic Frontend
+- [ ] Routes design
+    - [x] Login Page
+    - [x] Register Page
+    - [ ] message Page
+- [ ] Flash message implenantation
+- [ ] API

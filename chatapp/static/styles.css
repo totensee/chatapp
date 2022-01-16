@@ -8,41 +8,41 @@
 
 *, *::after, *::before {
     box-sizing: border-box;
+    margin: 0;
 }
 
 body {
-    margin: 0;
     background-color: var(--background-color);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 /* 
 =============
-Login Page
+Login Page / Register Page
 =============
 */
 
-.title, .login-title {
+.title, .login-title, .register-title {
     text-align: center;
     color: var(--font-color);
-    font-size: 4vh;
+    font-size: 40px;
     margin: 0;
 }
 
 .title { margin-top: 20px; }
 
-.login-title {
+.login-title, .register-title {
     margin-bottom: 30px;
     margin-top: 10px;
 }
 
-.login-container {
+.form-container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.login-form-container {
+.inner-form-container {
     width: 80%;
     max-width: 1000px;
     border: 2px solid var(--accent-color);
@@ -50,42 +50,53 @@ Login Page
     text-align: center;
 }
 
-.login-form {
+.form {
     margin: 10px;
 }
 
-.login-form > * {
+.form > * {
     width: 97%;
     margin: 10px 0;
     border: none;
 }
 
-.login-form > label {
+.form > label {
     color: var(--font-color);
     font-size: 20px;
 }
 
-.login-form > input { 
+.form > input { 
     background-color: var(--form-color);
     border-radius: 5px;
 }
 
-.login-form > input[type=text] {
+.form > input[type=text], .form > input[type=password] {
     font-size: 15px;
     padding: 5px;
     outline: none;
 }
 
-.login-form > input[type=text]:focus {
+.form > input[type=text]:focus, .form > input[type=password]:focus {
     outline: 3px solid black;
 }
 
-.login-form > input[type=submit] {
+.form > a {
+    width: initial;
+    display: inline-block;
+    padding: 5px;
+    margin: 0;
+    background-color: var(--font-color);
+    text-decoration: none;
+    color: var(--background-color);
+    border-radius: 5px;
+}
+
+.form > input[type=submit] {
     font-size: 20px;
     transition: background-color 0.5s ease;
 }
 
-.login-form > input[type=submit]:hover {
+.form > input[type=submit]:hover {
     background-color: var(--button-color);
     cursor: pointer;
 }
