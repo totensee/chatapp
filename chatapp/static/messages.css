@@ -71,11 +71,25 @@ Message show container
 
 .message-show-container {
     width: 80%;
-    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.inner-wrapper {
     overflow-y: scroll;
 }
 
-.message-show-container > .message {
+/* .inner-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.inner-wrapper {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+} */
+
+.message-show-container  .message {
     width: 40%;
     border-radius: 10px;
     margin: 10px 0;
@@ -85,22 +99,22 @@ Message show container
     color: #002538;
 }
 
-.message-show-container > .left {
+.message-show-container  .left {
     background-color: var(--from-message-color);
     margin-left: 5px;
 }
 
-.message-show-container > .right {
+.message-show-container  .right {
     margin-left: auto;
     background-color: var(--to-message-color);
     margin-right: 5px;
 }
 
-.message-show-container > .message > .message-content {
+.message-show-container .message > .message-content {
     font-size: 18px;
 }
 
-.message-show-container > .message > .message-time {
+.message-show-container .message > .message-time {
     font-size: 14px;
     text-align: right;
 }

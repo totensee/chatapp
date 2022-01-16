@@ -1,2 +1,2 @@
-const messageContainer = document.getElementById("msg-container");
-messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
+const innerWrapper = document.getElementById("inner-wrapper");
+innerWrapper.scrollTop = innerWrapper.scrollHeight - innerWrapper.clientHeight;
