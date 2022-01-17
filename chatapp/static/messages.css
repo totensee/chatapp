@@ -9,6 +9,10 @@
     --to-message-color: #03cafc;
 }
 
+body {
+    overflow: hidden;
+}
+
 .message-container {
     display: flex;
     flex-direction: row;
@@ -80,14 +84,17 @@ Message show container
     overflow-y: scroll;
 }
 
-/* .inner-wrapper::-webkit-scrollbar {
+
+/* Hiding scrollbar */
+
+.inner-wrapper::-webkit-scrollbar {
     display: none;
 }
 
 .inner-wrapper {
     -ms-overflow-style: none;
     scrollbar-width: none;
-} */
+}
 
 .message-show-container  .message {
     width: 40%;
@@ -117,4 +124,44 @@ Message show container
 .message-show-container .message > .message-time {
     font-size: 14px;
     text-align: right;
+}
+
+/* 
+===========
+Message send container
+===========
+*/
+
+.message-send-wrapper {
+    display:flex;
+    flex-direction:row;
+    justify-content: center;
+    align-items: center;
+}
+
+.message-send-wrapper .message-send-input {
+    flex-grow: 1;
+    height: unset;
+    color: white;
+    height: 7vh;
+    resize: none;
+    font-size: 1.1rem;
+    /* opacity: 0.5; */
+    background-color: var(--background-color);
+}
+
+.message-send-wrapper .message-send-input:focus {
+    outline: none;
+}
+
+.message-send-wrapper .message-send-button {
+    padding: 0;
+    box-sizing: initial;
+    border: none;
+    border-radius: 50%;
+    color:white;
+    height: 7vh;
+    width: 7vh;
+    background: blue;
+    margin: 10px 10px;
 }

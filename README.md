@@ -7,4 +7,5 @@
     - [x] Register Page
     - [ ] message Page
 - [ ] Flash message implenantation
+- [ ] User auth error fix
 - [ ] API
