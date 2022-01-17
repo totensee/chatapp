@@ -7,5 +7,8 @@
     - [x] Register Page
     - [ ] message Page
 - [ ] Flash message implenantation
-- [ ] User auth error fix
+- [ ] User auth username check
+- [ ] Message send concept
 - [ ] API
+    - [x] Send Messages
+    - [ ] Get messages
