@@ -11,4 +11,4 @@
 - [ ] Message send concept
 - [ ] API
     - [x] Send Messages
-    - [ ] Get messages
+    - [x] Get messages

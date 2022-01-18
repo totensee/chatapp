@@ -4,9 +4,16 @@ const messageSendBtn = document.getElementById("msg-send-btn");
 messageSendBtn.addEventListener("click", function() {
     const rawResponse = fetch('http://127.0.0.1:5000/api/send', {
         method: 'POST',
-        body: JSON.stringify({to: 1, content: messageTextField.value})
+        body: JSON.stringify({to: 2, content: messageTextField.value})
     });
 
     messageTextField.value = "";
 
 });
+
+const rawResponse = fetch('http://127.0.0.1:5000/api/get', {
+        method: 'POST',
+        body: JSON.stringify({to: 2})
+});
+
+console.log(rawResponse.JSON)
