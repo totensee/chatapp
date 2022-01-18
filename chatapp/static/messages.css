@@ -19,10 +19,19 @@ body {
     height: 100vh;
 }
 
+.chat-list-wrapper {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .chat-list {
     padding: 0;
     list-style-type: none;
-    width: 20%;
+    width: 100%;
+    flex-grow: 1;
 }
 
 .chat-list > .chat-item > button {
@@ -44,10 +53,18 @@ body {
     background-color: var(--active-button-color);
 }
 
+.add-chat-button {
+    height: 5vh;
+    width: 5vh;
+    border: none;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
 /* Responsive Layout */
 
 @media screen and (max-width:900px) {
-    .chat-list {
+    .chat-list-wrapper {
         width: 30%;
     }
 
@@ -57,7 +74,7 @@ body {
 }
 
 @media screen and (max-width:600px) {
-    .chat-list {
+    .chat-list-wrapper {
         width: 40%;
     }
 

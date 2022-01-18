@@ -61,3 +61,39 @@ def get_messages():
         messages_json.append(msg_json)
     
     return jsonify(messages_json)
+
+@app.route("/api/chats", methods=["POST", "GET"])
+def get_chats():
+
+    if not current_user.is_authenticated: return "ERROR"
+
+    chat_ids = [x for x in current_user.chats if x.isnumeric()]
+    chats_json = []
+    
+    for id in chat_ids:
+        user = User.query.filter_by(id=id).first()
+        chat = {
+            "id": id,
+            "username": user.username
+        }
+        chats_json.append(chat)
+
+    return jsonify(chats_json)
+
+@app.route("/api/join", methods=["POST"])
+def join_chat():
+
+    if not current_user.is_authenticated: return "ERROR"
+
+    body = json.loads(request.data.decode())
+
+    chat = body["chat"]
+
+    if str(chat) in current_user.chats:
+        return "Already Created"
+
+    current_user.chats = chat
+
+    db.session.commit()
+
+    return "Success"

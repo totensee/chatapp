@@ -1,3 +1,4 @@
+from email.policy import default
 from chatapp import db, login_manager, bcrypt_app
 from flask_login import UserMixin
 
@@ -9,6 +10,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
+    _chats = db.Column(db.String(), default="")
 
     @property
     def password(self):
@@ -17,6 +19,14 @@ class User(db.Model, UserMixin):
     @password.setter
     def password(self, plain_text_password):
         self.password_hash = bcrypt_app.generate_password_hash(plain_text_password).decode("utf-8")
+
+    @property
+    def chats(self):
+        return self._chats.split(";")
+
+    @chats.setter
+    def chats(self, chat):
+        self._chats += f";{chat}"
 
     def check_password_correction(self, attempted_password):
         return bcrypt_app.check_password_hash(self.password_hash, attempted_password)

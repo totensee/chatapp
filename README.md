@@ -8,7 +8,8 @@
     - [ ] message Page
 - [ ] Flash message implenantation
 - [ ] User auth username check
-- [ ] Message send concept
-- [ ] API
+- [x] API
     - [x] Send Messages
     - [x] Get messages
+    - [x]  Join Channel
+    - [x] Get Chats

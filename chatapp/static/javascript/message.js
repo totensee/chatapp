@@ -16,4 +16,7 @@ const rawResponse = fetch('http://127.0.0.1:5000/api/get', {
         body: JSON.stringify({to: 2})
 });
 
-console.log(rawResponse.JSON)
+const rawResponse2 = fetch('http://127.0.0.1:5000/api/join', {
+        method: 'POST',
+        body: JSON.stringify({chat: 2})
+});
