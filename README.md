@@ -2,10 +2,10 @@
 
 ## TODO
 
-- [ ] Routes design
+- [x] First Routes design
     - [x] Login Page
     - [x] Register Page
-    - [ ] message Page
+    - [x] message Page
 - [ ] Flash message implenantation
 - [ ] User auth username check
 - [x] API

@@ -7,6 +7,8 @@
     --active-button-color: #242323;
     --from-message-color: #03fc84;
     --to-message-color: #03cafc;
+    --modal-button-color: #750000;
+    --modal-button-hover-color: #2f7500;
 }
 
 body {
@@ -181,4 +183,73 @@ Message send container
     width: 7vh;
     background: blue;
     margin: 10px 10px;
+}
+
+/* 
+MODAL
+*/
+
+.modal-container {
+    position: fixed;
+    top: 10%;
+    left: 20%;
+    right: 20%;
+    opacity: 0.8;
+    background-color: var(--active-button-color);
+}
+
+.channel-model {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--font-color);
+}
+
+.contact-header { font-size: 3rem; }
+
+.username-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    margin-bottom: 15px;
+}
+
+.user-item {
+    display: flex;
+    flex-direction: row;
+}
+
+.username {
+    margin-right: 5px;
+    font-size: 1.5rem;
+    color: var(--from-message-color);
+}
+
+.contact-btn {
+    border: none;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    color: white;
+    background-color: var(--modal-button-color);
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover, .close-btn:hover {
+    background-color: var(--modal-button-hover-color);
+    color: black;
+}
+
+.modal-container.closed {
+    display: none;
+}
+
+.close-btn {
+    border: none;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    color: white;
+    background-color: var(--modal-button-color);
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
 }

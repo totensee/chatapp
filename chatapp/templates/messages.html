@@ -17,28 +17,27 @@
 
             <ul class="chat-list" id="chat-list"></ul>
 
-            <button class="add-chat-button">+</button>
-        
+            <button class="add-chat-button" id="add-chat-button"></button>
+            
+            <div class="modal-container" id="modal-container">
+                <div class="channel-model">
+                    <h1 class="contact-header">Contact a person</h1>
+                    <ul class="username-list">
+                        <li class="user-item">
+                            <p class="username">totensee</p>
+                            <button class="contact-btn">contact</button>
+                        </li>
+                    </ul>
+                    <button class="close-btn" id="close-btn">Close</button>
+                </div>
+            </div>
+
         </div>
 
 
         <div class="message-show-container">
 
-            <div class="inner-wrapper" id="inner-wrapper">
-
-                <div class="message left">
-                    <p class="message-content">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsam reprehenderit odio dolorem repellendus alias necessitatibus unde deleniti impedit quas. Debitis pariatur consequuntur modi inventore excepturi quisquam. Error cupiditate quis inventore laudantium deleniti corrupti recusandae, nulla laborum velit dolore hic odit ratione, quae officia delectus vero sapiente. Hic, amet. Minus nesciunt dolore dolor, non consequatur laudantium, modi quasi, tempora eos qui pariatur distinctio natus assumenda hic. Enim alias voluptate quaerat vitae neque delectus nulla numquam veniam suscipit nihil vero nemo nam ipsa ipsam, iste laudantium unde eos minus. Officiis, at. Provident adipisci accusantium nam veritatis molestias ex fugit numquam assumenda cum.</p>
-                    <p class="message-time">13:12:11</p>
-                </div>
-
-                <div class="message right">
-                    <p class="message-content">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste maiores temporibus commodi dicta nesciunt vero facilis dolorum, amet quod accusamus qui natus. Dignissimos blanditiis ab corporis rem atque ex, sunt nemo cupiditate et earum aliquid tempore libero facilis quos, laborum quidem, iusto alias officia eaque at praesentium ad adipisci. Dolorem?
-                    </p>
-                    <p class="message-time">14:11:34</p>
-                </div>
-
-            </div>
+            <div class="inner-wrapper" id="inner-wrapper"></div>
 
             <div class="message-send-wrapper">
 
@@ -53,7 +52,6 @@
 
     <!-- Scripts -->
 
-    <script src="../static/javascript/message.js"></script>
     <script src="../static/javascript/uiscript.js"></script>
 
 </body>
