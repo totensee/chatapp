@@ -97,3 +97,16 @@ def join_chat():
     db.session.commit()
 
     return "Success"
+
+@app.route("/api/users", methods=["POST"])
+def get_users():
+
+    if not current_user.is_authenticated: return "ERROR"
+
+    body = json.loads(request.data.decode())
+
+    subsstring = body["user"]
+
+    user_list = list(User.query.filter(User.username.contains(subsstring)).all())[:9]
+
+    return jsonify([x.username for x in user_list])

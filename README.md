@@ -13,3 +13,4 @@
     - [x] Get messages
     - [x]  Join Channel
     - [x] Get Chats
+    - [ ] Get Users
