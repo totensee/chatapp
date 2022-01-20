@@ -208,16 +208,40 @@ MODAL
 
 .contact-header { font-size: 3rem; }
 
+.contact-input {
+    width: 50%;
+    margin: 10px 0;
+    font-size: 1.3rem;
+    text-align: center;
+    outline: none;
+    border: none;
+    background-color: var(--background-color);
+    color: white;
+}
+
 .username-list {
     list-style: none;
     padding: 0;
     margin: 10px 0;
     margin-bottom: 15px;
+    max-height: 50vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.username-list::-webkit-scrollbar {
+    display: none;
+}
+
+.username-list {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .user-item {
     display: flex;
     flex-direction: row;
+    margin: 10px 0;
 }
 
 .username {

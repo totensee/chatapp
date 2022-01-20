@@ -109,4 +109,4 @@ def get_users():
 
     user_list = list(User.query.filter(User.username.contains(subsstring)).all())[:9]
 
-    return jsonify([x.username for x in user_list])
+    return jsonify([[x.username, x.id] for x in user_list])

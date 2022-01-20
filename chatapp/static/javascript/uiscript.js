@@ -8,6 +8,8 @@ const messageSendBtn = document.getElementById("msg-send-btn");
 const closeModalButton = document.getElementById("close-btn");
 const addChatButton = document.getElementById("add-chat-button");
 const modalWrapper = document.getElementById("modal-container");
+const contactInput = document.getElementById("contact-input");
+const userList = document.getElementById("username-list");
 
 closeModalButton.addEventListener("click", function() {
     modalWrapper.classList.add("closed");
@@ -17,9 +19,48 @@ addChatButton.addEventListener("click", function() {
     modalWrapper.classList.remove("closed");
 });
 
-// 
-// 
-// 
+contactInput.addEventListener("input", function(input) {
+    fetch("http://127.0.0.1:5000/api/users", {
+        method: "POST",
+        body: JSON.stringify({user: input.target.value})
+    })
+        .then(response => response.json())
+        .then(data => updateUsernames(data));
+});
+
+function updateUsernames(usernameJson) {
+    userList.innerHTML = "";
+
+    usernameJson.forEach(username => {
+        const userNameItem = document.createElement("li");
+        userNameItem.classList.add("user-item");
+
+        const userNameParagraph = document.createElement("p");
+        userNameParagraph.classList.add("username");
+        userNameParagraph.innerText = username[0];
+
+        const contactBtn = document.createElement("button");
+        contactBtn.classList.add("contact-btn");
+        contactBtn.innerText = "contact";
+        contactBtn.addEventListener("click", function() {
+            joinChat(username[1]);
+        });
+
+        userNameItem.appendChild(userNameParagraph);
+        userNameItem.appendChild(contactBtn);
+
+        userList.appendChild(userNameItem);
+    });
+}
+
+function joinChat(chatId) {
+    fetch("/api/join", {
+        method: "POST",
+        body: JSON.stringify({chat: chatId})
+    });
+
+    getChatData();
+}
 
 let lastChat = "";
 let currentChatId = 0;
@@ -44,7 +85,15 @@ messageSendBtn.addEventListener("click", function() {
 
 });
 
+function getChatData() {
+    fetch('http://127.0.0.1:5000/api/chats', {method: 'POST'})
+        .then(response => response.json())
+        .then(data => updateChats(data));
+}
+
 function updateChats(jsonChats) {
+
+    chatList.innerHTML = "";
 
     jsonChats.forEach(chat => {
         const chatItem = document.createElement("li");
@@ -55,7 +104,7 @@ function updateChats(jsonChats) {
 
         innerButton.addEventListener("click", function() {
             currentChatId = chat.id;
-            getChatData();
+            getMessageData();
         });
 
         chatItem.appendChild(innerButton);
@@ -65,7 +114,7 @@ function updateChats(jsonChats) {
 
 }
 
-function getChatData() {
+function getMessageData() {
 
     if (currentChatId == 0) { return; }
 
@@ -121,8 +170,5 @@ function createMessage(chat) {
     innerMessageWrapper.appendChild(messageContainer);
 }
 
-window.setInterval(getChatData, 1000);
-
-fetch('http://127.0.0.1:5000/api/chats', {method: 'POST'})
-        .then(response => response.json())
-        .then(data => updateChats(data));
+window.setInterval(getMessageData, 1000);
+getChatData();
