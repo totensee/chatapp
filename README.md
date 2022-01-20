@@ -8,9 +8,11 @@
     - [x] message Page
 - [ ] Flash message implenantation
 - [ ] User auth username check
+- [ ] javascript additions
+    - [ ] message getting advanced dupe check
 - [x] API
     - [x] Send Messages
     - [x] Get messages
-    - [x]  Join Channel
+    - [x] Join Channel
     - [x] Get Chats
-    - [ ] Get Users
+    - [x] Get Users

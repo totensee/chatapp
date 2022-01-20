@@ -20,7 +20,7 @@ addChatButton.addEventListener("click", function() {
 });
 
 contactInput.addEventListener("input", function(input) {
-    fetch("http://127.0.0.1:5000/api/users", {
+    fetch("/api/users", {
         method: "POST",
         body: JSON.stringify({user: input.target.value})
     })
@@ -59,7 +59,8 @@ function joinChat(chatId) {
         body: JSON.stringify({chat: chatId})
     });
 
-    getChatData();
+
+    setTimeout(function() { getChatData(); }, 100);
 }
 
 let lastChat = "";
@@ -70,9 +71,9 @@ messageSendBtn.addEventListener("click", function() {
     if (messageTextField.value === "") { return; }
 
     const content = messageTextField.value;
-    fetch('http://127.0.0.1:5000/api/send', {
+    fetch('/api/send', {
         method: 'POST',
-        body: JSON.stringify({to: 2, content: content})
+        body: JSON.stringify({to: currentChatId, content: content})
     });
 
     lastChat = content;
@@ -86,7 +87,7 @@ messageSendBtn.addEventListener("click", function() {
 });
 
 function getChatData() {
-    fetch('http://127.0.0.1:5000/api/chats', {method: 'POST'})
+    fetch('/api/chats', {method: 'POST'})
         .then(response => response.json())
         .then(data => updateChats(data));
 }
@@ -104,7 +105,9 @@ function updateChats(jsonChats) {
 
         innerButton.addEventListener("click", function() {
             currentChatId = chat.id;
+            innerButton.classList.add("active");
             getMessageData();
+            lastChat = "";
         });
 
         chatItem.appendChild(innerButton);
@@ -118,7 +121,7 @@ function getMessageData() {
 
     if (currentChatId == 0) { return; }
 
-    fetch('http://127.0.0.1:5000/api/get', {
+    fetch('/api/get', {
         method: 'POST',
         body: JSON.stringify({to: currentChatId})
     })

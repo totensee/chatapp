@@ -34,6 +34,17 @@ body {
     list-style-type: none;
     width: 100%;
     flex-grow: 1;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.chat-list::-webkit-scrollbar {
+    display: none;
+}
+
+.chat-list {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
 .chat-list > .chat-item > button {

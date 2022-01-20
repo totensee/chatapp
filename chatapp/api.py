@@ -12,8 +12,6 @@ def send_message():
     body = json.loads(request.data.decode())
     send_time = time.time()
 
-    print(body)
-
     message = Message(
         msg_from = current_user.id,
         msg_to = body["to"],
@@ -92,6 +90,8 @@ def join_chat():
     if str(chat) in current_user.chats:
         return "Already Created"
 
+    joinedUser = User.query.filter_by(id=chat).first()
+    joinedUser.chats = current_user.id
     current_user.chats = chat
 
     db.session.commit()
