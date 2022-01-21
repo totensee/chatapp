@@ -89,6 +89,9 @@ def join_chat():
 
     if str(chat) in current_user.chats:
         return "Already Created"
+    elif chat == current_user.id:
+        return "Cant add yourself"
+
 
     joinedUser = User.query.filter_by(id=chat).first()
     joinedUser.chats = current_user.id
@@ -105,8 +108,9 @@ def get_users():
 
     body = json.loads(request.data.decode())
 
+    user_id = current_user.id
     subsstring = body["user"]
 
     user_list = list(User.query.filter(User.username.contains(subsstring)).all())[:9]
 
-    return jsonify([[x.username, x.id] for x in user_list])
+    return jsonify([[x.username, x.id] for x in user_list if x.id != user_id])

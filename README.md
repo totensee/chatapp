@@ -6,8 +6,8 @@
     - [x] Login Page
     - [x] Register Page
     - [x] message Page
-- [ ] Flash message implenantation
-- [ ] User auth username check
+- [ ] Flash message implemantation
+- [x] User auth username check
 - [ ] javascript additions
     - [ ] message getting advanced dupe check
 - [x] API

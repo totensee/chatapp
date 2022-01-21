@@ -35,6 +35,12 @@ def register():
     password1 = request.form["password1"]
     password2 = request.form["password2"]
 
+    # Chek if the user exists
+    user = User.query.filter_by(username=username).first()
+    if user:
+        flash("The username already exists, please choose another one")
+        return(redirect(url_for("register_page")))
+
     # Check if passwords match
     if not password1 == password2:
         flash("Passwords don't match")
