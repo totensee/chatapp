@@ -17,8 +17,30 @@ body {
 
 .message-container {
     display: flex;
-    flex-direction: row;
     height: 100vh;
+}
+
+.status-bar {
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+}
+
+.logout-link {
+    display: inline-block;
+    margin-left: 10px;
+    color: white;
+    text-decoration: none;
+    height: 4vh;
+    width: 4vh;
+    background-color: var(--modal-button-color);
+    padding: 5px;
+    border-radius: 10px;
+    background-image: url(../static/icons/logout.svg);
+    background-repeat: no-repeat;
+    background-color: rgba(145, 0, 0, 0.4);
+    background-position: center;
+    background-size: 80%;
 }
 
 .chat-list-wrapper {
@@ -67,11 +89,16 @@ body {
 }
 
 .add-chat-button {
-    height: 5vh;
-    width: 5vh;
+    height: 7vh;
+    width: 7vh;
     border: none;
     border-radius: 50%;
     margin-bottom: 10px;
+    background-image: url(../static/icons/plus.svg);
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.3);
+    background-position: center;
+    background-size: 80%;
 }
 
 /* Responsive Layout */
@@ -110,10 +137,10 @@ Message show container
     justify-content: flex-end;
 }
 
+
 .inner-wrapper {
     overflow-y: scroll;
 }
-
 
 /* Hiding scrollbar */
 
@@ -126,7 +153,7 @@ Message show container
     scrollbar-width: none;
 }
 
-.message-show-container  .message {
+.message-show-container .message {
     width: 40%;
     border-radius: 10px;
     margin: 10px 0;
@@ -156,7 +183,7 @@ Message show container
     text-align: right;
 }
 
-/* 
+/*
 ===========
 Message send container
 ===========
@@ -176,8 +203,9 @@ Message send container
     height: 7vh;
     resize: none;
     font-size: 1.1rem;
-    /* opacity: 0.5; */
+    opacity: 0.9;
     background-color: var(--background-color);
+    border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .message-send-wrapper .message-send-input:focus {
@@ -192,8 +220,12 @@ Message send container
     color:white;
     height: 7vh;
     width: 7vh;
-    background: blue;
     margin: 10px 10px;
+    background-image: url(../static/icons/send.svg);
+    background-repeat: no-repeat;
+    background-color: rgba(0, 0, 0, 0.3);
+    background-position: calc(50% + 4px) 50%;
+    background-size: 80%;
 }
 
 /* 

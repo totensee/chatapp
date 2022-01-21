@@ -23,6 +23,7 @@ def login():
         return redirect(url_for("message_page"))
     else:
         flash("Username and password dont match! Please try again")
+        return redirect(url_for("login_page"))
 
 @app.route("/register")
 def register_page():
