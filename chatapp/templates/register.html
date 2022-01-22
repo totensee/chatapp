@@ -11,6 +11,17 @@
 
 <body>
     
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash-message">
+                <div class="inner-flash-message-wrapper {{ category }}">
+                    <button class="flash-close">x</button>
+                    <p class="flash-message-content">{{ message }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    {% endwith %}
+
     <h1 class="title">Chat App</h1>
     <h1 class="register-title">Register a new account</h1>
     <div class="form-container">
@@ -34,6 +45,10 @@
             </form>
         </div>
     </div>
+
+    <!-- Javascript -->
+
+    <script src="../static/javascript/flashmsg.js"></script>
 
 </body>
 

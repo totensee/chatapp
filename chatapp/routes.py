@@ -22,7 +22,7 @@ def login():
         flash(f"Successfully logged in as {attempted_user.username}", category="success")
         return redirect(url_for("message_page"))
     else:
-        flash("Username and password dont match! Please try again")
+        flash("Username and password dont match! Please try again", category="warning")
         return redirect(url_for("login_page"))
 
 @app.route("/register")
@@ -38,12 +38,12 @@ def register():
     # Chek if the user exists
     user = User.query.filter_by(username=username).first()
     if user:
-        flash("The username already exists, please choose another one")
+        flash("The username already exists, please choose another one", category="danger")
         return(redirect(url_for("register_page")))
 
     # Check if passwords match
     if not password1 == password2:
-        flash("Passwords don't match")
+        flash("The passwords don't match", category="warning")
         return redirect(url_for("register_page"))
 
     user_to_create = User(
@@ -55,15 +55,12 @@ def register():
     db.session.commit()
 
     login_user(user_to_create)
-
-    flash(f"Successfully created the user {user_to_create.username}")
-
     return redirect(url_for("message_page"))
 
 @app.route("/logout")
 def logout():
     logout_user()
-    flash("Sucessfully loged out!")
+    flash("Sucessfully loged out!", category="success")
     return redirect(url_for("login_page"))
 
 @app.route("/messages")

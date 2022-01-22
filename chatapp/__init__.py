@@ -1,3 +1,4 @@
+from tkinter.messagebox import NO
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -11,5 +12,6 @@ bcrypt_app = Bcrypt(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login_page"
 login_manager.login_message_category = "info"
+login_manager.login_message = None
 
 from chatapp import routes, api, models

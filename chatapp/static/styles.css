@@ -4,6 +4,9 @@
     --accent-color: #04AA6D;
     --form-color: #d1d1d1;
     --button-color: #acacac;
+    --success-color: #00c000;
+    --danger-color: #a00000;
+    --warning-color: #cfb000;
 }
 
 *, *::after, *::before {
@@ -21,6 +24,36 @@ body {
 Login Page / Register Page
 =============
 */
+
+.flash-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.inner-flash-message-wrapper {
+    text-align: center;
+    width: 80vw;
+    border-radius: 10px;
+}
+
+.inner-flash-message-wrapper.success { background: var(--success-color); }
+.inner-flash-message-wrapper.danger { background: var(--danger-color); }
+.inner-flash-message-wrapper.warning { background: var(--warning-color); }
+
+.flash-message-content {
+    color: black;
+    font-size: 20px;
+    display: inline;
+}
+
+.flash-close {
+    margin-top: 3px;
+    float: right;
+    background: none;
+    border: none;
+}
 
 .title, .login-title, .register-title {
     text-align: center;
