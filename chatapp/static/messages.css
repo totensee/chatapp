@@ -241,7 +241,7 @@ MODAL
     background-color: var(--active-button-color);
 }
 
-.channel-model {
+.channel-modal {
     display: flex;
     flex-direction: column;
     justify-content: center;

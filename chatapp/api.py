@@ -67,7 +67,32 @@ def get_chats():
 
     chat_ids = [x for x in current_user.chats if x.isnumeric()]
     chats_json = []
-    
+
+    current_id = current_user.id
+
+    def sortChats(chat):
+
+        second_id = chat["id"]
+
+        messages_from = list(Message.query.filter_by(
+            msg_from = current_id,
+            msg_to = second_id,
+        ))
+
+        messages_to = list(Message.query.filter_by(
+            msg_from = second_id,
+            msg_to = current_id,
+        ))
+
+        all_messages = messages_from + messages_to
+
+        all_messages.sort(key=lambda x: x.time)
+
+        if len(all_messages) > 0:
+            return all_messages[-1].time
+        else:
+            return 0
+
     for id in chat_ids:
         user = User.query.filter_by(id=id).first()
         chat = {
@@ -75,6 +100,8 @@ def get_chats():
             "username": user.username
         }
         chats_json.append(chat)
+
+    chats_json.sort(key=sortChats, reverse=True)
 
     return jsonify(chats_json)
 

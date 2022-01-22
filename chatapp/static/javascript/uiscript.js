@@ -104,6 +104,10 @@ function updateChats(jsonChats) {
         innerButton.innerText = chat.username;
 
         innerButton.addEventListener("click", function() {
+            activeButton = document.querySelector(".chat-item > .active");
+            if (activeButton) {
+                activeButton.classList.remove("active");
+            }
             currentChatId = chat.id;
             innerButton.classList.add("active");
             getMessageData();

@@ -1,4 +1,6 @@
 from email.policy import default
+
+from sqlalchemy import null
 from chatapp import db, login_manager, bcrypt_app
 from flask_login import UserMixin
 
@@ -10,6 +12,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer(), primary_key=True)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
     password_hash = db.Column(db.String(length=60), nullable=False)
+    # profile_picture_url = db.Column(db.String, default="") # Set default url
     _chats = db.Column(db.String(), default="")
 
     @property
