@@ -17,7 +17,8 @@
         - [x] Get Chats
         - [x] Get Users
         - [x] Sort Messages after a time
-
+            - [ ] frequent update
+ 
 - [ ] User settings
     - [ ] pfp
 

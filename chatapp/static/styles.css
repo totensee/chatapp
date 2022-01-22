@@ -49,10 +49,16 @@ Login Page / Register Page
 }
 
 .flash-close {
-    margin-top: 3px;
+    margin-top: 7px;
     float: right;
     background: none;
     border: none;
+    height: 10px;
+    width: 10px;
+    background-image: url(../static/icons/dismiss.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 80%;
 }
 
 .title, .login-title, .register-title {

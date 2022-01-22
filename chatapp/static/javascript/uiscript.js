@@ -1,6 +1,4 @@
 const innerWrapper = document.getElementById("inner-wrapper");
-innerWrapper.scrollTop = innerWrapper.scrollHeight - innerWrapper.clientHeight;
-
 const chatList = document.getElementById("chat-list");
 const innerMessageWrapper = document.getElementById("inner-wrapper");
 const messageTextField = document.getElementById("msg-send-input");
@@ -76,7 +74,7 @@ messageSendBtn.addEventListener("click", function() {
         body: JSON.stringify({to: currentChatId, content: content})
     });
 
-    lastChat = content;
+    // lastChat = content;
 
     const time = Math.floor(Date.now() / 1000);
 
@@ -105,9 +103,7 @@ function updateChats(jsonChats) {
 
         innerButton.addEventListener("click", function() {
             activeButton = document.querySelector(".chat-item > .active");
-            if (activeButton) {
-                activeButton.classList.remove("active");
-            }
+            if (activeButton) { activeButton.classList.remove("active"); }
             currentChatId = chat.id;
             innerButton.classList.add("active");
             getMessageData();
@@ -145,7 +141,7 @@ function switchChat(jsonChats) {
     jsonChats.forEach(chat => {
         createMessage(chat);   
     });
-
+    innerWrapper.scrollTop = innerWrapper.scrollHeight - innerWrapper.clientHeight;
 }
 
 function createMessage(chat) {
