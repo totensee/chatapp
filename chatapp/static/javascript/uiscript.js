@@ -98,23 +98,41 @@ function updateChats(jsonChats) {
         const chatItem = document.createElement("li");
         chatItem.classList.add("chat-item");
 
+        if (chat.id == currentChatId) { chatItem.classList.add("active"); }
+
         const innerButton = document.createElement("button");
         innerButton.innerText = chat.username;
 
         innerButton.addEventListener("click", function() {
-            activeButton = document.querySelector(".chat-item > .active");
-            if (activeButton) { activeButton.classList.remove("active"); }
+            activeElem = document.querySelector(".chat-item.active");
+            if (activeElem) { activeElem.classList.remove("active"); }
             currentChatId = chat.id;
-            innerButton.classList.add("active");
+            chatItem.classList.add("active");
             getMessageData();
+            getChatData();
             lastChat = "";
         });
 
         chatItem.appendChild(innerButton);
 
+        
+        fetch('/api/new_messages', {
+            method: 'POST',
+            body: JSON.stringify({from: chat.id})
+        })
+            .then(response => response.json())
+            .then(data => addUnseenMessages(data, chatItem));
+    
         chatList.appendChild(chatItem)
     });
 
+}
+
+function addUnseenMessages(jsonMessage, chatItem) {
+    unseenMessageParagraph = document.createElement("p");
+    unseenMessageParagraph.innerText = jsonMessage.unseen;
+    unseenMessageParagraph.classList.add("unseen-messages");
+    chatItem.appendChild(unseenMessageParagraph);
 }
 
 function getMessageData() {
@@ -174,4 +192,5 @@ function createMessage(chat) {
 }
 
 window.setInterval(getMessageData, 1000);
+window.setInterval(getChatData, 5000)
 getChatData();

@@ -1,6 +1,3 @@
-from email.policy import default
-
-from sqlalchemy import null
 from chatapp import db, login_manager, bcrypt_app
 from flask_login import UserMixin
 
@@ -40,3 +37,4 @@ class Message(db.Model):
     msg_to = db.Column(db.Integer(), nullable=False)
     content = db.Column(db.Integer(), nullable=False)
     time = db.Column(db.Float(), nullable=False)
+    seen = db.Column(db.Boolean(), nullable=False)

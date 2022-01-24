@@ -1,8 +1,8 @@
 import json, time
 from chatapp import app, db
 from chatapp.models import User, Message
-from flask import render_template, redirect, url_for, flash, request, jsonify
-from flask_login import login_user, logout_user, login_required, current_user
+from flask import request, jsonify
+from flask_login import current_user
 
 @app.route("/api/send", methods=["POST"])
 def send_message():
@@ -17,6 +17,7 @@ def send_message():
         msg_to = body["to"],
         content = body["content"],
         time = send_time,
+        seen = False
     )
     
     db.session.add(message)
@@ -58,6 +59,13 @@ def get_messages():
         }
         messages_json.append(msg_json)
     
+    unseen_messages = list(Message.query.filter_by(msg_from=second_id, seen=False))
+    
+    for unseen_message in unseen_messages:
+        unseen_message.seen = True
+    
+    db.session.commit()
+
     return jsonify(messages_json)
 
 @app.route("/api/chats", methods=["POST", "GET"])
@@ -141,3 +149,16 @@ def get_users():
     user_list = list(User.query.filter(User.username.contains(subsstring)).all())[:9]
 
     return jsonify([[x.username, x.id] for x in user_list if x.id != user_id])
+
+@app.route("/api/new_messages", methods=["POST"])
+def new_messages():
+
+    if not current_user.is_authenticated: return "ERROR"
+
+    body = json.loads(request.data.decode())
+
+    current_id = current_user.id
+    second_id = body["from"]
+    unseen_messages = list(Message.query.filter_by(msg_to=current_id, msg_from=second_id, seen=False))
+
+    return jsonify({"unseen": str(len(unseen_messages))})

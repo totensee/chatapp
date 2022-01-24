@@ -69,10 +69,24 @@ body {
     scrollbar-width: none;
 }
 
+.chat-list > .chat-item {
+    background-color: var(--form-color);
+    display: flex;
+    align-items: center;
+}
+
+
+.chat-list > .chat-item:hover {
+    background-color: var(--button-color);
+}
+
+.chat-list > .chat-item.active {
+    background-color: var(--active-button-color);
+}
+
 .chat-list > .chat-item > button {
     color: var(--font-color);
-    background-color: var(--form-color);
-    transition: background-color 0.3s ease;
+    background-color: transparent;
     border: none;
     height: 100%;
     width: 100%;
@@ -80,12 +94,16 @@ body {
     text-align: left;
 }
 
-.chat-list > .chat-item > button:hover {
-    background-color: var(--button-color);
-}
-
-.chat-list > .chat-item > button.active {
-    background-color: var(--active-button-color);
+.chat-list > .chat-item > p.unseen-messages {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+    margin-right: 10px;
+    font-size: 2vh;
+    height: 3vh;
+    width: 3vh;
 }
 
 .add-chat-button {
@@ -163,12 +181,12 @@ Message show container
     color: #002538;
 }
 
-.message-show-container  .left {
+.message-show-container .left {
     background-color: var(--from-message-color);
     margin-left: 5px;
 }
 
-.message-show-container  .right {
+.message-show-container .right {
     margin-left: auto;
     background-color: var(--to-message-color);
     margin-right: 5px;
