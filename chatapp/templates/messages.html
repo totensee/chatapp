@@ -17,17 +17,12 @@
         <div class="chat-list-wrapper">
 
             <div class="status-bar">
-                <a class="logout-link" href="/logout"></a>
+                <a class="logout-link" href="/logout" aria-label="logout"></a>
             </div>
 
-            <ul class="chat-list" id="chat-list">
-                <!-- <li class="chat-item">
-                    <button>Hello World!</button>
-                    <p class="unseen-messages">5</p>
-                </li> -->
-            </ul>
+            <ul class="chat-list" id="chat-list"></ul>
 
-            <button class="add-chat-button" id="add-chat-button"></button>
+            <button class="add-chat-button" id="add-chat-button" aria-label="add chat"></button>
             
             <div class="modal-container closed" id="modal-container">
                 <div class="channel-modal">
@@ -47,7 +42,7 @@
             <div class="message-send-wrapper">
 
                 <textarea class="message-send-input" id="msg-send-input"></textarea>
-                <button class="message-send-button" id="msg-send-btn"></button>
+                <button class="message-send-button" id="msg-send-btn" aria-label="send"></button>
 
             </div>
 
@@ -57,7 +52,7 @@
 
     <!-- Scripts -->
 
-    <script src="../static/javascript/uiscript.js"></script>
+    <!-- <script src="../static/javascript/uiscript.js"></script> -->
 
 </body>
 
