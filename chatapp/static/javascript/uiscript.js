@@ -67,6 +67,7 @@ let currentChatId = 0;
 messageSendBtn.addEventListener("click", function() {
 
     if (messageTextField.value === "") { return; }
+    else if (currentChatId == 0) { return; }
 
     const content = messageTextField.value;
     fetch('/api/send', {
