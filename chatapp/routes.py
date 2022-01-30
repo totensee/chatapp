@@ -5,7 +5,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 
 @app.route("/")
 def default():
-    return redirect(url_for("message_page"))
+    return render_template("home.html")
 
 @app.route("/login")
 def login_page():
@@ -18,7 +18,6 @@ def login():
     attempted_user = User.query.filter_by(username=username).first()
     if attempted_user and attempted_user.check_password_correction(attempted_password=password):
         login_user(attempted_user)
-        flash(f"Successfully logged in as {attempted_user.username}", category="success")
         return redirect(url_for("message_page"))
     else:
         flash("Username and password dont match! Please try again", category="warning")

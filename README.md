@@ -2,10 +2,11 @@
 
 ## TODO
 
-- [x] First Routes design
+- [ ] Routes design
     - [x] Login Page
     - [x] Register Page
     - [x] message Page
+    - [x] Home Page
 
 - [x] flask
     - [x] Flash message implemantation
