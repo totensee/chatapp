@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] Routes design
+- [x] Routes design
     - [x] Login Page
     - [x] Register Page
     - [x] message Page

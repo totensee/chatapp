@@ -151,9 +151,9 @@ function getMessageData() {
 function switchChat(jsonChats) {
 
     if (jsonChats.length === 0) { return; }
-    if (jsonChats.at(-1).content == lastChat) { return; }
+    if (jsonChats[jsonChats.length - 1].content == lastChat) { return; }
 
-    lastChat = jsonChats.at(-1).content
+    lastChat = jsonChats[jsonChats.length - 1].content;
 
     innerMessageWrapper.innerHTML = "";
 
