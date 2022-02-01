@@ -31,7 +31,14 @@ body {
 .message-container {
     display: flex;
     height: 100vh;
-    height:-webkit-fill-available;
+}
+
+/* 
+SAFARI 100vh bug
+*/
+
+_::-webkit-full-page-media, _:future, :root .message-container {
+    height: -webkit-fill-available;
 }
 
 .status-bar {
