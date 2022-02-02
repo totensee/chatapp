@@ -111,7 +111,6 @@ function updateChats(jsonChats) {
             chatItem.classList.add("active");
             getMessageData();
             getChatData();
-            lastChat = "";
         });
 
         chatItem.appendChild(innerButton);
@@ -150,7 +149,11 @@ function getMessageData() {
 
 function switchChat(jsonChats) {
 
-    if (jsonChats.length === 0) { return; }
+    if (jsonChats.length === 0) {
+        innerMessageWrapper.innerHTML = "";
+        lastChat = "";
+        return;
+    }
     if (jsonChats[jsonChats.length - 1].content == lastChat) { return; }
 
     lastChat = jsonChats[jsonChats.length - 1].content;

@@ -113,6 +113,7 @@ _::-webkit-full-page-media, _:future, :root .message-container {
     width: 100%;
     font-size: 4vh;
     text-align: left;
+    overflow: hidden;
 }
 
 .chat-list > .chat-item > p.unseen-messages {

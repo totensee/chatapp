@@ -28,19 +28,15 @@
         <div class="inner-form-container">
             <form action="/register" method="post" class="form">
                 <label for="username">Enter your username:</label>
-                <br>
                 <input type="text" id="username" name="username">
-                <br>
                 <label for="password1">Enter your password:</label>
-                <br>
                 <input type="password" id="password1" name="password1">
-                <br>
                 <label for="password2">Confirm your password:</label>
-                <br>
                 <input type="password" id="password2" name="password2">
-                <br>
-                <a href="/login">Login</a>
-                <br>
+                <div class="login-choice-wrapper">
+                    <p>Already have an account?</p>
+                    <a href="/login">Login</a>
+                </div>
                 <input type="submit" value="Register">
             </form>
         </div>
