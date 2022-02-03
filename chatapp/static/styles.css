@@ -142,6 +142,7 @@ Login Page / Register Page
 
 .form > input[type=submit] {
     font-size: 20px;
+    color: black;
     transition: background-color 0.5s ease;
 }
 

@@ -40,8 +40,12 @@ def register():
         return(redirect(url_for("register_page")))
 
     # Check if passwords match
-    if not password1 == password2:
+    elif not password1 == password2:
         flash("The passwords don't match", category="warning")
+        return redirect(url_for("register_page"))
+
+    elif len(username) > 20:
+        flash("The username is too long!", category="warning")
         return redirect(url_for("register_page"))
 
     user_to_create = User(
