@@ -221,6 +221,7 @@ Message show container
 
 .message-show-container .message > .message-content {
     font-size: 18px;
+    word-wrap: break-word;
 }
 
 .message-show-container .message > .message-time {

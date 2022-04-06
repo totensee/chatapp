@@ -6,6 +6,7 @@
     - [x] Login Page
     - [x] Register Page
     - [x] message Page
+        - [x] message word wrap
     - [x] Home Page
 
 - [x] flask
