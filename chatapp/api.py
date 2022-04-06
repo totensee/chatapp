@@ -1,6 +1,6 @@
 import json, time
 from chatapp import app, db
-from chatapp.models import User, Message
+from chatapp.models import User, Message, Server, ServerMessage
 from flask import request, jsonify
 from flask_login import current_user
 
@@ -32,55 +32,12 @@ def get_messages():
 
     body = json.loads(request.data.decode())
 
-    current_id = current_user.id
-    second_id = body["to"]
-
-    messages_from = list(Message.query.filter_by(
-        msg_from = current_id,
-        msg_to = second_id,
-    ))
-
-    messages_to = list(Message.query.filter_by(
-        msg_from = second_id,
-        msg_to = current_id,
-    ))
-
-    all_messages = messages_from + messages_to
-
-    all_messages.sort(key=lambda x: x.time)
-
     messages_json = []
 
-    for message in all_messages:
-        msg_json = {
-            "content": message.content,
-            "from": "self" if message.msg_from == current_id else "nself",
-            "time": message.time
-        }
-        messages_json.append(msg_json)
-    
-    unseen_messages = list(Message.query.filter_by(msg_from=second_id, seen=False))
-    
-    for unseen_message in unseen_messages:
-        unseen_message.seen = True
-    
-    db.session.commit()
+    if not body["server"]:
 
-    return jsonify(messages_json)
-
-@app.route("/api/chats", methods=["POST", "GET"])
-def get_chats():
-
-    if not current_user.is_authenticated: return "ERROR"
-
-    chat_ids = [x for x in current_user.chats if x.isnumeric()]
-    chats_json = []
-
-    current_id = current_user.id
-
-    def sortChats(chat):
-
-        second_id = chat["id"]
+        current_id = current_user.id
+        second_id = body["to"]
 
         messages_from = list(Message.query.filter_by(
             msg_from = current_id,
@@ -96,16 +53,101 @@ def get_chats():
 
         all_messages.sort(key=lambda x: x.time)
 
-        if len(all_messages) > 0:
-            return all_messages[-1].time
-        else:
-            return 0
+        for message in all_messages:
+            msg_json = {
+                "content": message.content,
+                "from": "self" if message.msg_from == current_id else User.query.filter_by(id=message.msg_from).first().username,
+                "time": message.time
+            }
+            messages_json.append(msg_json)
+        
+        unseen_messages = list(Message.query.filter_by(msg_from=second_id, seen=False))
+        
+        for unseen_message in unseen_messages:
+            unseen_message.seen = True
+
+    elif body["server"]:
+
+        current_id = current_user.id
+        server_id = body["to"] # the id of the server
+
+        all_messages = list(ServerMessage.query.filter_by(
+            server_id = server_id
+        ))
+
+        all_messages.sort(key=lambda x: x.time)
+
+        for message in all_messages:
+            msg_json = {
+                "content": message.content,
+                "from": "self" if message.msg_froms == current_id else "nself",
+                "time": message.time
+            }
+            messages_json.append(msg_json)
+
+    return jsonify(messages_json)
+
+
+@app.route("/api/chats", methods=["POST"])
+def get_chats():
+
+    if not current_user.is_authenticated: return "ERROR"
+
+    chat_ids = [x for x in current_user.chats if x.isnumeric()]
+    server_ids = [x for x in current_user.servers_in if x.isnumeric()]
+    chats_json = []
+
+    current_id = current_user.id
+
+    def sortChats(chat):
+
+        if not chat["server"]:
+
+            second_id = chat["id"]
+
+            messages_from = list(Message.query.filter_by(
+                msg_from = current_id,
+                msg_to = second_id,
+            ))
+
+            messages_to = list(Message.query.filter_by(
+                msg_from = second_id,
+                msg_to = current_id,
+            ))
+
+            all_messages = messages_from + messages_to
+
+            all_messages.sort(key=lambda x: x.time)
+
+            if len(all_messages) > 0:
+                return all_messages[-1].time
+            else:
+                return 0
+        
+        elif chat["server"]:
+
+            servers_in = current_user.servers_in
+            server_id = chat["id"]
+
+            server = Server.query.filter_by(id=server_id).first()
+
+            return server.last_message
 
     for id in chat_ids:
         user = User.query.filter_by(id=id).first()
         chat = {
             "id": id,
-            "username": user.username
+            "server": False,
+            "name": user.username
+        }
+        chats_json.append(chat)
+
+    for id in server_ids:
+        server = Server.query.filter_by(id=id).first()
+        chat = {
+            "id": id,
+            "server": True,
+            "name": server.name
         }
         chats_json.append(chat)
 
@@ -162,3 +204,55 @@ def new_messages():
     unseen_messages = list(Message.query.filter_by(msg_to=current_id, msg_from=second_id, seen=False))
 
     return jsonify({"unseen": str(len(unseen_messages))})
+
+@app.route("/api/servers/join", methods=["POST"])
+def join_server():
+
+    if not current_user.is_authenticated: return "ERROR"
+
+    body = json.loads(request.data.decode())
+
+    server_id = body["server"]
+
+    if str(server_id) in current_user.servers_in:
+        return "Already Joined"
+    
+    current_user.servers_in = server_id
+
+    db.session.commit()
+
+    return "Success"
+
+@app.route("/api/servers/all", methods=["POST"])
+def get_servers():
+    
+        if not current_user.is_authenticated: return "ERROR"
+    
+        body = json.loads(request.data.decode())
+
+        user_id = current_user.id
+        subsstring = body["server"]
+
+        server_list = list(Server.query.filter(Server.name.contains(subsstring)).all())[:9]
+
+        return jsonify([[x.name, x.id] for x in server_list])
+
+@app.route("/api/servers/send", methods=["POST"])
+def send_server_message():
+
+    if not current_user.is_authenticated: return "ERROR"
+
+    body = json.loads(request.data.decode())
+    send_time = time.time()
+
+    server_message = ServerMessage(
+        server_id = body["server"],
+        msg_from = current_user.id,
+        content = body["content"],
+        time = send_time
+    )
+
+    db.session.add(server_message)
+    db.session.commit()
+
+    return "Successs"

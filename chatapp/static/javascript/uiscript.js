@@ -102,7 +102,7 @@ function updateChats(jsonChats) {
         if (chat.id == currentChatId) { chatItem.classList.add("active"); }
 
         const innerButton = document.createElement("button");
-        innerButton.innerText = chat.username;
+        innerButton.innerText = chat.name;
 
         innerButton.addEventListener("click", function() {
             activeElem = document.querySelector(".chat-item.active");
