@@ -41,7 +41,7 @@ function updateUsernames(usernameJson) {
         contactBtn.classList.add("contact-btn");
         contactBtn.innerText = "contact";
         contactBtn.addEventListener("click", function() {
-            joinChat(username[1]);
+            joinChat(username[1], username[2]);
         });
 
         userNameItem.appendChild(userNameParagraph);
@@ -51,18 +51,25 @@ function updateUsernames(usernameJson) {
     });
 }
 
-function joinChat(chatId) {
-    fetch("/api/join", {
-        method: "POST",
-        body: JSON.stringify({chat: chatId})
-    });
-
+function joinChat(chatId, server) {
+    if (!server) {
+        fetch("/api/join", {
+            method: "POST",
+            body: JSON.stringify({chat: chatId})
+        });
+    } else if (server) {
+        fetch("/api/servers/join", {
+            method: "POST",
+            body: JSON.stringify({server: chatId})
+        });
+    }
 
     setTimeout(function() { getChatData(); }, 100);
 }
 
 let lastChat = "";
 let currentChatId = 0;
+let currentChatIsServer = null;
 
 messageSendBtn.addEventListener("click", function() {
 
@@ -72,7 +79,7 @@ messageSendBtn.addEventListener("click", function() {
     const content = messageTextField.value;
     fetch('/api/send', {
         method: 'POST',
-        body: JSON.stringify({to: currentChatId, content: content})
+        body: JSON.stringify({to: currentChatId, content: content, server: currentChatIsServer})
     });
 
     // lastChat = content;
@@ -99,15 +106,22 @@ function updateChats(jsonChats) {
         const chatItem = document.createElement("li");
         chatItem.classList.add("chat-item");
 
-        if (chat.id == currentChatId) { chatItem.classList.add("active"); }
+        if (chat.id == currentChatId && chat.server == currentChatIsServer) { chatItem.classList.add("active"); }
 
         const innerButton = document.createElement("button");
         innerButton.innerText = chat.name;
 
+        if (chat.server) {
+            chatItem.classList.add("server");
+        }
+
         innerButton.addEventListener("click", function() {
-            activeElem = document.querySelector(".chat-item.active");
-            if (activeElem) { activeElem.classList.remove("active"); }
+            activeElems = document.querySelectorAll(".chat-item.active");
+            activeElems.forEach((activeElem) => {
+                activeElem.classList.remove("active");
+            });
             currentChatId = chat.id;
+            currentChatIsServer = chat.server;
             chatItem.classList.add("active");
             getMessageData();
             getChatData();
@@ -118,7 +132,7 @@ function updateChats(jsonChats) {
         
         fetch('/api/new_messages', {
             method: 'POST',
-            body: JSON.stringify({from: chat.id})
+            body: JSON.stringify({from: chat.id, server: currentChatIsServer})
         })
             .then(response => response.json())
             .then(data => addUnseenMessages(data, chatItem));
@@ -141,10 +155,13 @@ function getMessageData() {
 
     fetch('/api/get', {
         method: 'POST',
-        body: JSON.stringify({to: currentChatId})
+        body: JSON.stringify({to: currentChatId, server: currentChatIsServer}),
+        server: currentChatIsServer
     })
         .then(response => response.json())
         .then(data => switchChat(data));
+    
+
 }
 
 function switchChat(jsonChats) {
@@ -154,7 +171,7 @@ function switchChat(jsonChats) {
         lastChat = "";
         return;
     }
-    if (jsonChats[jsonChats.length - 1].content == lastChat) { return; }
+    if (jsonChats[jsonChats.length - 1].content == lastChat) { return; } // Check if the last message is the same as the last message in the chat
 
     lastChat = jsonChats[jsonChats.length - 1].content;
 
@@ -177,7 +194,16 @@ function createMessage(chat) {
     }
     
     const messageContent = document.createElement("p");
+    
     messageContent.innerText = chat.content;
+
+    if (currentChatIsServer && chat.from != "self") {
+        const authorParagraph = document.createElement("p");
+        authorParagraph.innerText = chat.from;
+        authorParagraph.classList.add("message-author");
+        messageContainer.appendChild(authorParagraph);
+    }
+
     messageContent.classList.add("message-content");
     
     const date = new Date(chat.time * 1000);

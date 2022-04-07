@@ -12,17 +12,30 @@ def send_message():
     body = json.loads(request.data.decode())
     send_time = time.time()
 
-    message = Message(
-        msg_from = current_user.id,
-        msg_to = body["to"],
-        content = body["content"],
-        time = send_time,
-        seen = False
-    )
-    
-    db.session.add(message)
-    db.session.commit()
+    if not body["server"]:
 
+        message = Message(
+            msg_from = current_user.id,
+            msg_to = body["to"],
+            content = body["content"],
+            time = send_time,
+            seen = False
+        )
+        
+        db.session.add(message)
+
+    elif body["server"]:
+
+        server_message = ServerMessage(
+            server_id = body["to"],
+            msg_from = current_user.id,
+            content = body["content"],
+            time = send_time
+        )
+
+        db.session.add(server_message)
+    
+    db.session.commit()
     return "Success"
 
 @app.route("/api/get", methods=["POST"])
@@ -80,10 +93,12 @@ def get_messages():
         for message in all_messages:
             msg_json = {
                 "content": message.content,
-                "from": "self" if message.msg_froms == current_id else "nself",
+                "from": "self" if message.msg_from == current_id else User.query.filter_by(id=message.msg_from).first().username,
                 "time": message.time
             }
             messages_json.append(msg_json)
+
+    db.session.commit() # Commiting because of the seen attribute
 
     return jsonify(messages_json)
 
@@ -189,8 +204,9 @@ def get_users():
     subsstring = body["user"]
 
     user_list = list(User.query.filter(User.username.contains(subsstring)).all())[:9]
+    server_list = list(Server.query.filter(Server.name.contains(subsstring)).all())[:9]
 
-    return jsonify([[x.username, x.id] for x in user_list if x.id != user_id])
+    return jsonify([[x.username, x.id, False] for x in user_list if x.id != user_id] + [[x.name, x.id, True] for x in server_list]) # [name, id, server]
 
 @app.route("/api/new_messages", methods=["POST"])
 def new_messages():
@@ -199,11 +215,39 @@ def new_messages():
 
     body = json.loads(request.data.decode())
 
-    current_id = current_user.id
-    second_id = body["from"]
-    unseen_messages = list(Message.query.filter_by(msg_to=current_id, msg_from=second_id, seen=False))
+    if not body["server"]:
 
-    return jsonify({"unseen": str(len(unseen_messages))})
+        current_id = current_user.id
+        second_id = body["from"]
+        unseen_messages = list(Message.query.filter_by(msg_to=current_id, msg_from=second_id, seen=False))
+
+        return jsonify({"unseen": str(len(unseen_messages))})
+
+    elif body["server"]:
+
+        return jsonify({"unseen": 0}) # Implement
+
+@app.route("/api/servers/create", methods=["POST"])
+def create_server():
+
+    if not current_user.is_authenticated: return "ERROR"
+
+    body = json.loads(request.data.decode())
+
+    server_name = body["name"]
+    
+    newServer = Server(
+        name = server_name,
+        owner = current_user.id
+    )
+
+    db.session.add(newServer)
+
+    current_user.servers_in = newServer.id
+
+    db.session.commit()
+
+    return "Success"
 
 @app.route("/api/servers/join", methods=["POST"])
 def join_server():
@@ -222,37 +266,3 @@ def join_server():
     db.session.commit()
 
     return "Success"
-
-@app.route("/api/servers/all", methods=["POST"])
-def get_servers():
-    
-        if not current_user.is_authenticated: return "ERROR"
-    
-        body = json.loads(request.data.decode())
-
-        user_id = current_user.id
-        subsstring = body["server"]
-
-        server_list = list(Server.query.filter(Server.name.contains(subsstring)).all())[:9]
-
-        return jsonify([[x.name, x.id] for x in server_list])
-
-@app.route("/api/servers/send", methods=["POST"])
-def send_server_message():
-
-    if not current_user.is_authenticated: return "ERROR"
-
-    body = json.loads(request.data.decode())
-    send_time = time.time()
-
-    server_message = ServerMessage(
-        server_id = body["server"],
-        msg_from = current_user.id,
-        content = body["content"],
-        time = send_time
-    )
-
-    db.session.add(server_message)
-    db.session.commit()
-
-    return "Successs"

@@ -21,9 +21,10 @@
         - [x] Sort Messages after a time
             - [x] frequent update
         - [x] Unseen Messages
+        - [x] Servers
 
 - [ ] User settings
     - [ ] pfp
 
-- [ ] javascript additions
-    - [ ] message getting advanced dupe check
+- [ ] javascript
+    - [ ] Server creatio

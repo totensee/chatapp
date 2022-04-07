@@ -51,6 +51,7 @@ class Message(db.Model):
 
 class Server(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
+    owner = db.Column(db.Integer(), nullable=False)
     name = db.Column(db.String(length=30), nullable=False, unique=True)
     last_message = db.Column(db.Float(), nullable=False, default=0)
 
