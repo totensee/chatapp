@@ -104,7 +104,7 @@ Login Page / Register Page
     font-size: 20px;
 }
 
-.form > input { 
+.form > input, button.submit-bot { 
     background-color: var(--form-color);
     border-radius: 5px;
 }
@@ -140,13 +140,23 @@ Login Page / Register Page
     color: var(--font-color);
 }
 
-.form > input[type=submit] {
+.form > input[type=submit], .form > button.submit-bot {
     font-size: 20px;
     color: black;
     transition: background-color 0.5s ease;
 }
 
-.form > input[type=submit]:hover {
+.form > input[type=submit]:hover, button.submit-bot:hover {
     background-color: var(--button-color);
     cursor: pointer;
+}
+
+.token-data {
+    color: var(--font-color);
+    display: inline-block;
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+    word-break: break-word;
+    text-align: left;
 }

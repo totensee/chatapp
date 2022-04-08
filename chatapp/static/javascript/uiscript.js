@@ -94,7 +94,7 @@ function joinChat(chatId, server) {
     setTimeout(function() { getChatData(); }, 100);
 }
 
-let lastChat = "";
+let lastChat = null;
 let currentChatId = 0;
 let currentChatIsServer = null;
 
@@ -108,8 +108,6 @@ messageSendBtn.addEventListener("click", function() {
         method: 'POST',
         body: JSON.stringify({to: currentChatId, content: content, server: currentChatIsServer})
     });
-
-    // lastChat = content;
 
     const time = Math.floor(Date.now() / 1000);
 
@@ -159,7 +157,7 @@ function updateChats(jsonChats) {
         
         fetch('/api/new_messages', {
             method: 'POST',
-            body: JSON.stringify({from: chat.id, server: currentChatIsServer})
+            body: JSON.stringify({from: chat.id, server: chat.server})
         })
             .then(response => response.json())
             .then(data => addUnseenMessages(data, chatItem));
@@ -195,12 +193,12 @@ function switchChat(jsonChats) {
 
     if (jsonChats.length === 0) {
         innerMessageWrapper.innerHTML = "";
-        lastChat = "";
+        lastChat = null;
         return;
     }
-    if (jsonChats[jsonChats.length - 1].content == lastChat) { return; } // Check if the last message is the same as the last message in the chat
+    if (jsonChats[jsonChats.length - 1].id == lastChat) { return; } // Check if the last message is the same as the last message in the chat
 
-    lastChat = jsonChats[jsonChats.length - 1].content;
+    lastChat = jsonChats[jsonChats.length - 1].id;
 
     innerMessageWrapper.innerHTML = "";
 

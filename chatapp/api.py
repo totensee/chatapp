@@ -86,7 +86,8 @@ def get_messages():
             msg_json = {
                 "content": message.content,
                 "from": "self" if message.msg_from == current_id else User.query.filter_by(id=message.msg_from).first().username,
-                "time": message.time
+                "time": message.time,
+                "id": message.id
             }
             messages_json.append(msg_json)
         
@@ -109,8 +110,9 @@ def get_messages():
         for message in all_messages:
             msg_json = {
                 "content": message.content,
-                "from": "self" if message.msg_from == current_id else (User.query.filter_by(id=message.msg_from).first().username if message.bot == 0 else f"{Bot.query.filter_by(id=message.msg_from).first().name} - Bot"),
-                "time": message.time
+                "from": "self" if message.msg_from == current_id and not message.bot else (User.query.filter_by(id=message.msg_from).first().username if message.bot == 0 else f"{Bot.query.filter_by(id=message.msg_from).first().name} - Bot"),
+                "time": message.time,
+                "id": message.id
             }
             messages_json.append(msg_json)
 
@@ -301,7 +303,7 @@ def create_bot():
     db.session.add(bot)
     db.session.commit()
 
-    return jsonify({"token": bot.auth_token})
+    return jsonify({"token": bot.auth_token, "id": bot.id})
 
 @app.route("/api/bot/join/<bot_id>/<server_id>", methods=["POST", "GET"])
 def join_bot(bot_id, server_id):
@@ -344,7 +346,7 @@ def get_bot_messages():
     if not bot:
         return "ERROR"
 
-    messages = ServerMessage.query.filter_by(server_id=server_id)
+    messages = list(ServerMessage.query.filter_by(server_id=server_id))
 
     messages.sort(key=lambda x: x.time)
 
@@ -353,7 +355,8 @@ def get_bot_messages():
     for message in messages:
         messages_json.append({
             "content": message.content,
-            "time": message.time
+            "time": message.time,
+            "bot": message.bot != 0
         })
 
     return jsonify(messages_json)

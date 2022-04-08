@@ -69,3 +69,7 @@ def logout():
 @login_required
 def message_page():
     return render_template("messages.html")
+
+@app.route("/bot")
+def bot_page():
+    return render_template("create_bot.html")

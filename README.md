@@ -8,6 +8,9 @@
     - [x] message Page
         - [x] message word wrap
     - [x] Home Page
+    - [ ] Bot
+        - [x] creation
+        - [ ] Server joining
 
 - [x] flask
     - [x] Flash message implemantation
