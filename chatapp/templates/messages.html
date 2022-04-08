@@ -27,12 +27,27 @@
 
             <button class="add-chat-button" id="add-chat-button" aria-label="add chat"></button>
             
-            <div class="modal-container" id="modal-container">
+            <div class="modal-container closed" id="contact-modal-container">
                 <div class="channel-modal">
                     <h1 class="contact-header">Contact a person</h1>
                     <input class="contact-input" type="text" id="contact-input">
                     <ul class="username-list" id="username-list"></ul>
-                    <button class="close-btn" id="close-btn">Close</button>
+                    <div class="modal-button-container">
+                        <button class="server-modal-btn" id="create-server-btn">Create Server</button>
+                        <button class="close-btn" id="contact-close-btn">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-container closed" id="create-server-modal-container">
+                <div class="server-modal">
+                    <h1 class="server-modal-header">Create a server</h1>
+                    <label class="modal-label" for="server-modal-input">Name:</label>
+                    <input class="server-modal-input" type="text" id="server-modal-input">
+                    <div class="modal-button-container">
+                        <button class="server-modal-btn" id="server-modal-btn">Create</button>
+                        <button class="close-btn" id="server-modal-close-btn">Close</button>
+                    </div>
                 </div>
             </div>
 
@@ -61,7 +76,7 @@
 
     <!-- Scripts -->
 
-    <script src="../static/javascript/uiscript.js"></script>
+    <script src="../static/javascript/uiscript.js" type="text/javascript"></script>
 
 </body>
 

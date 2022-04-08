@@ -28,3 +28,10 @@
 
 - [ ] javascript
     - [ ] Server creatio
+
+- Bot
+    - "/api/bot/create" json = {name}
+    - "/api/bot/join/bot_id/server_id"
+    - "/api/bot/servers_in" json = {bot_token}, return = [server_id]
+    - "/api/bot/get_messages" json = {bot_token, server_id}, return = [{content, time}]
+    - "/api/bot/send_message" json = {bot_token, server_id, content} return {status}

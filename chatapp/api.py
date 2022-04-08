@@ -1,8 +1,19 @@
-import json, time
+import json, time, jwt
 from chatapp import app, db
-from chatapp.models import User, Message, Server, ServerMessage
+from chatapp.models import User, Message, Server, ServerMessage, Bot
 from flask import request, jsonify
 from flask_login import current_user
+
+def auth_token(id):
+    payload = {
+        "id": id
+    }
+
+    return jwt.encode(
+        payload,
+        app.config.get('SECRET_KEY'),
+        algorithm='HS256'
+    )
 
 @app.route("/api/send", methods=["POST"])
 def send_message():
@@ -32,6 +43,11 @@ def send_message():
             content = body["content"],
             time = send_time
         )
+
+        server = Server.query.filter_by(
+            id = body["to"]
+        ).first()
+        server.last_message = send_time
 
         db.session.add(server_message)
     
@@ -93,7 +109,7 @@ def get_messages():
         for message in all_messages:
             msg_json = {
                 "content": message.content,
-                "from": "self" if message.msg_from == current_id else User.query.filter_by(id=message.msg_from).first().username,
+                "from": "self" if message.msg_from == current_id else (User.query.filter_by(id=message.msg_from).first().username if message.bot == 0 else f"{Bot.query.filter_by(id=message.msg_from).first().name} - Bot"),
                 "time": message.time
             }
             messages_json.append(msg_json)
@@ -242,6 +258,7 @@ def create_server():
     )
 
     db.session.add(newServer)
+    db.session.commit()
 
     current_user.servers_in = newServer.id
 
@@ -266,3 +283,106 @@ def join_server():
     db.session.commit()
 
     return "Success"
+
+@app.route("/api/bot/create", methods=["POST"])
+def create_bot():
+
+    body = json.loads(request.data.decode())
+
+    bot = Bot(
+        name = body["name"]
+    )
+
+    db.session.add(bot)
+    db.session.commit()
+
+    bot.auth_token = auth_token(bot.id)
+
+    db.session.add(bot)
+    db.session.commit()
+
+    return jsonify({"token": bot.auth_token})
+
+@app.route("/api/bot/join/<bot_id>/<server_id>", methods=["POST", "GET"])
+def join_bot(bot_id, server_id):
+
+    bot = Bot.query.filter_by(id=bot_id).first()
+
+    if not bot:
+        return "ERROR"
+
+    bot.servers_in = server_id
+
+    db.session.commit()
+
+    return jsonify({"joined": server_id})
+
+@app.route("/api/bot/servers_in", methods=["POST"])
+def get_bot_servers():
+
+    body = json.loads(request.data.decode())
+
+    bot_token = body["auth_token"]
+
+    bot = Bot.query.filter_by(auth_token=str(bot_token)).first()
+
+    if not bot:
+        return "ERROR"
+
+    return jsonify({"servers": bot.servers_in})
+
+@app.route("/api/bot/get_messages", methods=["POST"])
+def get_bot_messages():
+
+    body = json.loads(request.data.decode())
+
+    bot_token = body["auth_token"]
+    server_id = body["server"]
+
+    bot = Bot.query.filter_by(auth_token=bot_token).first()
+
+    if not bot:
+        return "ERROR"
+
+    messages = ServerMessage.query.filter_by(server_id=server_id)
+
+    messages.sort(key=lambda x: x.time)
+
+    messages_json = []
+
+    for message in messages:
+        messages_json.append({
+            "content": message.content,
+            "time": message.time
+        })
+
+    return jsonify(messages_json)
+
+@app.route("/api/bot/send_message", methods=["POST"])
+def send_bot_message():
+
+    body = json.loads(request.data.decode())
+
+    bot_token = body["auth_token"]
+    server_id = body["server"]
+    message = body["content"]
+
+    bot = Bot.query.filter_by(auth_token=bot_token).first()
+
+    if not bot:
+        return "ERROR"
+
+    send_time = time.time()
+
+    newMessage = ServerMessage(
+        content = message,
+        server_id = server_id,
+        bot = 1,
+        msg_from = bot.id,
+        time = send_time
+    )
+
+    db.session.add(newMessage)
+    db.session.commit()
+
+    return jsonify({"status": "success"})

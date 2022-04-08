@@ -1,3 +1,4 @@
 chatapp/__pycache__
 chat.db
 reset.py
+create_bot.py

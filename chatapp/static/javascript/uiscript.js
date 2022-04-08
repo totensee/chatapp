@@ -3,18 +3,45 @@ const chatList = document.getElementById("chat-list");
 const innerMessageWrapper = document.getElementById("inner-wrapper");
 const messageTextField = document.getElementById("msg-send-input");
 const messageSendBtn = document.getElementById("msg-send-btn");
-const closeModalButton = document.getElementById("close-btn");
+const closeContactModalButton = document.getElementById("contact-close-btn");
 const addChatButton = document.getElementById("add-chat-button");
-const modalWrapper = document.getElementById("modal-container");
+const contactModalWrapper = document.getElementById("contact-modal-container");
 const contactInput = document.getElementById("contact-input");
 const userList = document.getElementById("username-list");
+const createServerBtn = document.getElementById("create-server-btn");
+const createServerModalWrapper = document.getElementById("create-server-modal-container");
+const closeServerModalBtn = document.getElementById("server-modal-close-btn");
+const serverModalBtn = document.getElementById("server-modal-btn");
+const serverModalInput = document.getElementById("server-modal-input");
 
-closeModalButton.addEventListener("click", function() {
-    modalWrapper.classList.add("closed");
+serverModalBtn.addEventListener("click", () => {
+    fetch("/api/servers/create", {
+        method: "POST",
+        body: JSON.stringify({name: serverModalInput.value})
+    });
+    createServerModalWrapper.classList.add("closed");
+    setTimeout(function() { getChatData(); }, 100);
+});
+
+closeServerModalBtn.addEventListener("click", () => {
+    createServerModalWrapper.classList.add("closed");
+});
+
+createServerBtn.addEventListener("click", () => {
+    contactModalWrapper.classList.add("closed");
+    createServerModalWrapper.classList.remove("closed");
+});
+
+closeContactModalButton.addEventListener("click", function() {
+    contactModalWrapper.classList.add("closed");
 });
 
 addChatButton.addEventListener("click", function() {
-    modalWrapper.classList.remove("closed");
+    if (!createServerModalWrapper.classList.contains("closed")) {
+        createServerModalWrapper.classList.add("closed");
+        return;
+    }
+    contactModalWrapper.classList.toggle("closed");
 });
 
 contactInput.addEventListener("input", function(input) {

@@ -1,4 +1,4 @@
-from chatapp import db, login_manager, bcrypt_app
+from chatapp import db, login_manager, bcrypt_app, app
 from flask_login import UserMixin
 
 @login_manager.user_loader
@@ -61,3 +61,18 @@ class ServerMessage(db.Model):
     msg_from = db.Column(db.Integer(), nullable=False)
     content = db.Column(db.Integer(), nullable=False)
     time = db.Column(db.Float(), nullable=False)
+    bot = db.Column(db.Float(), nullable=False, default=0)
+
+class Bot(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(length=30), nullable=False, unique=True)
+    auth_token = db.Column(db.String(), nullable=True)
+    _servers_in = db.Column(db.String(), default="")
+
+    @property
+    def servers_in(self):
+        return self._servers_in.split(";")
+
+    @servers_in.setter
+    def servers_in(self, server):
+        self._servers_in += f";{server}"

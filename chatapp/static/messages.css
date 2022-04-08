@@ -315,7 +315,7 @@ MODAL
     background-color: var(--active-button-color);
 }
 
-.channel-modal {
+.channel-modal, .server-modal {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -323,9 +323,9 @@ MODAL
     color: var(--font-color);
 }
 
-.contact-header { font-size: 3rem; }
+.contact-header, .server-modal-header { font-size: 3rem; }
 
-.contact-input {
+.contact-input, .server-modal-input {
     width: 50%;
     margin: 10px 0;
     font-size: 1.3rem;
@@ -383,7 +383,7 @@ MODAL
     transition: all 0.3s ease;
 }
 
-.contact-btn:hover, .close-btn:hover {
+.contact-btn:hover, .close-btn:hover, .server-modal-btn:hover {
     background-color: var(--modal-button-hover-color);
     color: black;
 }
@@ -392,7 +392,7 @@ MODAL
     display: none;
 }
 
-.close-btn {
+.close-btn, .server-modal-btn {
     border: none;
     border-radius: 8px;
     font-size: 1.5rem;
@@ -400,4 +400,20 @@ MODAL
     background-color: var(--modal-button-color);
     transition: all 0.3s ease;
     margin-bottom: 10px;
+}
+
+.modal-label {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 10px 0;
+}
+
+.modal-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-button-container > button {
+    margin: 10px;
 }
